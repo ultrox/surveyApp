@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import states from '../data/states';
 import TextField from '../common/TextField'
-
+import PropTypes from 'prop-types';
 
 import map from 'lodash/map';
 
@@ -26,7 +26,8 @@ class SurveyForm extends Component {
 	}
 	handleSubmit(e) {
 		e.preventDefault();
-		console.log(this.state);
+		console.log('this.state', this.state);
+		this.props.surveyRequest(this.state);
 	}
 	render() {
 		const options = map(states, (val, key) => {
@@ -80,6 +81,10 @@ class SurveyForm extends Component {
 			</form>
 		)
 	}
+}
+
+SurveyForm.propTypes = {
+	surveyRequest: PropTypes.func.isRequired
 }
 
 export default SurveyForm;
