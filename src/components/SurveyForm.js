@@ -13,7 +13,9 @@ class SurveyForm extends Component {
 			lastname: '',
 			email:'',
 			annualincome: '',
-			state: ''
+			state: '',
+			errors: {},
+			isLoading: false
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -25,9 +27,13 @@ class SurveyForm extends Component {
 		})
 	}
 	handleSubmit(e) {
+		this.setState({errors: {}, isLoading: true})
 		e.preventDefault();
 		console.log('this.state', this.state);
-		this.props.surveyRequest(this.state);
+		this.props.surveyRequest(this.state).then(
+			() => {}, 
+			({data}) => this.setState({errors: data, isLoading: false})
+		);
 	}
 	render() {
 		const options = map(states, (val, key) => {
@@ -43,6 +49,7 @@ class SurveyForm extends Component {
 					label='First Name' 
 					firstname={this.state.firstname} 
 					handleChange={this.handleChange}
+					errors={this.state.errors}
 				/>
 
 				<TextField 
@@ -50,6 +57,7 @@ class SurveyForm extends Component {
 					label='Last Name' 
 					firstname={this.state.lastname} 
 					handleChange={this.handleChange}
+					errors={this.state.errors}
 				/>
 
 				<TextField 
@@ -57,6 +65,7 @@ class SurveyForm extends Component {
 					label='Email' 
 					firstname={this.state.email} 
 					handleChange={this.handleChange}
+					errors={this.state.errors}
 				/>
 
 				<TextField 
@@ -64,6 +73,7 @@ class SurveyForm extends Component {
 					label='Annual Income' 
 					firstname={this.state.annualincome} 
 					handleChange={this.handleChange}
+					errors={this.state.errors}
 				/>
 
 				<div className="form-group">
@@ -74,7 +84,7 @@ class SurveyForm extends Component {
 					</select>
 				</div>
 				<div className='form-group'>
-					<button className="btn btn-primary bnt-lg">
+					<button disabled={this.state.isLoading} className="btn btn-primary bnt-lg">
 						Send
 					</button>
 				</div>
