@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import states from '../data/states';
-import TextField from '../common/TextField'
+import TextField from './common/TextFieldGroup'
 import PropTypes from 'prop-types';
-
+import { validateInput } from '../utils';
+import classnames from 'classnames';
 import map from 'lodash/map';
 
 class SurveyForm extends Component {
@@ -26,16 +27,26 @@ class SurveyForm extends Component {
 			[e.target.name]: e.target.value
 		})
 	}
+	isValid() {
+		const { errors, isValid } = validateInput(this.state)
+		if(!isValid) {
+			this.setState({ errors });
+		}
+		return isValid;
+	}
+
 	handleSubmit(e) {
-		this.setState({errors: {}, isLoading: true})
 		e.preventDefault();
-		console.log('this.state', this.state);
-		this.props.surveyRequest(this.state).then(
-			() => {}, 
-			({data}) => this.setState({errors: data, isLoading: false})
-		);
+		if(this.isValid()){
+			this.setState({errors: {}, isLoading: true})
+			this.props.surveyRequest(this.state).then(
+				() => {}, 
+				({data}) => this.setState({errors: data, isLoading: false})
+			);
+		}
 	}
 	render() {
+		const {errors} = this.state;
 		const options = map(states, (val, key) => {
 			return <option key={val} value={val}>{key}</option>
 		})
@@ -47,42 +58,44 @@ class SurveyForm extends Component {
 				<TextField 
 					fieldName='firstname' 
 					label='First Name' 
-					firstname={this.state.firstname} 
+					value={this.state.firstname} 
 					handleChange={this.handleChange}
-					errors={this.state.errors}
+					error={errors.firstname}
 				/>
 
 				<TextField 
 					fieldName='lastname' 
 					label='Last Name' 
-					firstname={this.state.lastname} 
+					value={this.state.lastname} 
 					handleChange={this.handleChange}
-					errors={this.state.errors}
+					error={errors.lastname}
 				/>
 
 				<TextField 
 					fieldName='email' 
 					label='Email' 
-					firstname={this.state.email} 
+					value={this.state.email} 
 					handleChange={this.handleChange}
-					errors={this.state.errors}
+					error={errors.email}
 				/>
 
 				<TextField 
 					fieldName='annualincome' 
 					label='Annual Income' 
-					firstname={this.state.annualincome} 
+					value={this.state.annualincome} 
 					handleChange={this.handleChange}
-					errors={this.state.errors}
+					error={errors.annualincome}
 				/>
 
-				<div className="form-group">
+				<div className={classnames("form-group", {'has-error': errors.state})}>
 					<label className="control-label">State</label>
 					<select className='form-control' name='state' value={this.state.state} onChange={this.handleChange}>
 						<option value="" disabled > Choose Your State</option>
 						{options}
 					</select>
+					{errors.state && <span className="help-block">{errors.state}</span>}
 				</div>
+
 				<div className='form-group'>
 					<button disabled={this.state.isLoading} className="btn btn-primary bnt-lg">
 						Send
