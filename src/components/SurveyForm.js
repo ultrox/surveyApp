@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { validateInput } from '../utils';
 import classnames from 'classnames';
 import map from 'lodash/map';
+import {browserHistory} from 'react-router';
 
 class SurveyForm extends Component {
 	constructor(props) {
@@ -40,7 +41,7 @@ class SurveyForm extends Component {
 		if(this.isValid()){
 			this.setState({errors: {}, isLoading: true})
 			this.props.surveyRequest(this.state).then(
-				() => {}, 
+				() => browserHistory.push('/thanks'), 
 				({data}) => this.setState({errors: data, isLoading: false})
 			);
 		}
