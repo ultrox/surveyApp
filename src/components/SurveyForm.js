@@ -85,6 +85,7 @@ class SurveyForm extends Component {
 					label='Annual Income' 
 					value={this.state.annualincome} 
 					handleChange={this.handleChange}
+					type='number'
 					error={errors.annualincome}
 				/>
 
