@@ -41,7 +41,13 @@ class SurveyForm extends Component {
 		if(this.isValid()){
 			this.setState({errors: {}, isLoading: true})
 			this.props.surveyRequest(this.state).then(
-				() => browserHistory.push('/thanks'), 
+				() => {
+					browserHistory.push('/thanks')
+					this.props.addFlashMsgs({
+						type: 'success',
+						text: 'Successufully Submited'
+					});
+				}, 
 				({data}) => this.setState({errors: data, isLoading: false})
 			);
 		}
@@ -109,7 +115,8 @@ class SurveyForm extends Component {
 }
 
 SurveyForm.propTypes = {
-	surveyRequest: PropTypes.func.isRequired
+	surveyRequest: PropTypes.func.isRequired,
+	addFlashMsgs: PropTypes.func.isRequired
 }
 
 export default SurveyForm;

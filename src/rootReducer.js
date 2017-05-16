@@ -1,4 +1,9 @@
+//obj in return big state obj
 import { combineReducers } from 'redux';
-import auth from './reducers/auth';
+import flashMsgs from './reducers/flashMsgs';
 
-export default combineReducers({auth})
+
+export default combineReducers({
+	flashMsgs
+})
+
