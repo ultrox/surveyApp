@@ -6,6 +6,8 @@ import { validateInput } from '../utils';
 import classnames from 'classnames';
 import map from 'lodash/map';
 import {browserHistory} from 'react-router';
+import acc from 'accounting';
+import './custom.css'
 
 class SurveyForm extends Component {
 	constructor(props) {
@@ -15,6 +17,7 @@ class SurveyForm extends Component {
 			lastname: '',
 			email:'',
 			annualincome: '',
+			annual: '',
 			state: '',
 			errors: {},
 			isLoading: false
@@ -24,8 +27,12 @@ class SurveyForm extends Component {
 	}
 
 	handleChange(e) {
+		let name = e.target.name;
+		let value = e.target.value;
+		const annualincome = acc.unformat( this.state.annual );
+
 		this.setState({
-			[e.target.name]: e.target.value
+			[name]: value, annualincome
 		})
 	}
 	isValid() {
@@ -50,12 +57,14 @@ class SurveyForm extends Component {
 				}, 
 				({data}) => this.setState({errors: data, isLoading: false})
 			);
+		} else {
+			console.log('test fail', this.state)
 		}
 	}
 	render() {
 		const {errors} = this.state;
 		const options = map(states, (val, key) => {
-			return <option key={val} value={val}>{key}</option>
+			return <option key={key} value={key}>{val}</option>
 		})
 
 		return(
@@ -87,12 +96,13 @@ class SurveyForm extends Component {
 				/>
 
 				<TextField 
-					fieldName='annualincome' 
+					fieldName='annual' 
 					label='Annual Income' 
-					value={this.state.annualincome} 
+					value={this.state.annual} 
 					handleChange={this.handleChange}
-					type='number'
-					error={errors.annualincome}
+					type='text'
+					placeholder="ex: 120,000.00"
+					error={errors.annual}
 				/>
 
 				<div className={classnames("form-group", {'has-error': errors.state})}>

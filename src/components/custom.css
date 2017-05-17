@@ -1,0 +1,20 @@
+.dolar {
+  position: relative;
+	bottom: 17px;
+}
+
+.dolar > i {
+  position: absolute;
+  display: block;
+  transform: translate(0, -50%);
+  pointer-events: none;
+  width: 25px;
+  text-align: center;
+	font-style: normal;
+}
+
+input.sis {
+  padding-left: 25px;
+	padding-right: 0;
+}
+

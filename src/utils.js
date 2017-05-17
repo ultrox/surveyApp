@@ -16,8 +16,8 @@ export function validateInput(data) {
 		errors.lastname = "Last Name is required"
 	}
 
-	if(Validator.isEmpty(data.annualincome)) {
-		errors.annualincome = "Annual Income is required"
+	if(Validator.isEmpty(data.annual)) {
+		errors.annual = "Annual Income is required"
 	}
 	if(Validator.isEmpty(data.state)) {
 		errors.state = "State is required"
