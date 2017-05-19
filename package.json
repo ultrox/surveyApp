@@ -17,7 +17,6 @@
     "shortid": "^2.2.8",
     "validator": "^7.0.0"
   },
-  "homepage": "http://form112.surge.sh",
   "react-router": "^2.5.0",
   "devDependencies": {
     "react-scripts": "0.9.5"
