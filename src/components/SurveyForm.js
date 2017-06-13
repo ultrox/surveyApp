@@ -129,4 +129,5 @@ SurveyForm.propTypes = {
 	addFlashMsgs: PropTypes.func.isRequired
 }
 
-export default SurveyForm;
+[ export ] default SurveyForm;
+
